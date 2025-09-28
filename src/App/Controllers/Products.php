@@ -11,9 +11,7 @@ use Valitron\Validator;
 
 class Products
 {
-    public function __construct(private ProductRepository $repository,
-      private Validator $validator
-    )
+    public function __construct(private ProductRepository $repository)
     {
     }
 
@@ -77,8 +75,8 @@ class Products
         $v = new Validator($body);
         $v->mapFieldsRules([
             'id' => ['required', 'integer', ['min', 1]],
-            'name' => ['optional'],
-            'size' => ['optional', 'integer', ['min', 1]],
+            'name' => ['required'],
+            'size' => ['required', 'integer', ['min', 1]],
             'description' => ['optional']
         ]);
 

@@ -42,16 +42,16 @@ $app->add(new AddJsonResponseHeader);
 
 $app->group('/api', function (RouteCollectorProxy $group) {
 
-  $group->get('products', Products::class);
+  $group->get('/products', Products::class);
 
-  $group->post('products', Products::class . ':createProduct');
+  $group->post('/products', Products::class . ':createProduct');
 
   $group->group('', function (RouteCollectorProxy $group) {
-    $group->get('products/{id:[0-9]+}', Products::class . ':getProduct');
+    $group->get('/products/{id:[0-9]+}', Products::class . ':getProduct');
 
-    $group->patch('products/{id:[0-9]+}', Products::class . ':updateProduct');
+    $group->patch('/products/{id:[0-9]+}', Products::class . ':updateProduct');
 
-    $group->delete('products/{id:[0-9]+}', Products::class . ':deleteProduct');
+    $group->delete('/products/{id:[0-9]+}', Products::class . ':deleteProduct');
   })->add(GetProduct::class);
 });
 
