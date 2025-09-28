@@ -41,7 +41,7 @@ class ProductRepository
       return $data ?: null;
     }
 
-    public function createProduct(array $product): int
+    public function createProduct(array $product): ?array
     {
       $pdo = $this->database->getConnection();
 
@@ -61,10 +61,14 @@ class ProductRepository
 
       $stmt->execute();
 
-      return (int)$pdo->lastInsertId();
+      $lastInsertId = (int)$pdo->lastInsertId();
+
+      $lastProduct = $this->getProductById($lastInsertId);
+
+      return $lastProduct;
     }
 
-      public function updateProduct(array $product): ?array
+      public function updateProduct(array $product, int $id): ?array
       {
       $pdo = $this->database->getConnection();
 
@@ -80,13 +84,13 @@ class ProductRepository
           $stmt->bindValue(':description', null, PDO::PARAM_NULL);
       }
 
-      $stmt->bindValue(':id', $product['id'], PDO::PARAM_INT);
+      $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
       $stmt->bindValue(':size', $product['size'], PDO::PARAM_INT);
 
       $stmt->execute();
 
-      $updatedProduct = $this->getProductById((int) $product['id']);
+      $updatedProduct = $this->getProductById($id);
 
       return $updatedProduct;
     }

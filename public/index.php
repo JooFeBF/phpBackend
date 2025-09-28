@@ -53,6 +53,7 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 
     $group->delete('/products/{id:[0-9]+}', Products::class . ':deleteProduct');
   })->add(GetProduct::class);
+
 });
 
 $app->run();

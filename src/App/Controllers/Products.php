@@ -76,6 +76,8 @@ class Products
     {
         $body = $request->getParsedBody();
 
+        $id = $request->getAttribute('product')['id'];
+
         if ($body === null) {
             throw new \InvalidArgumentException('Invalid JSON body');
         }
@@ -95,7 +97,7 @@ class Products
             return $response->withStatus(400);
         }
 
-        $updatedProduct = $this->repository->updateProduct($body);
+        $updatedProduct = $this->repository->updateProduct($body, $id);
 
         $body = json_encode([
             'message' => 'Product updated successfully',
