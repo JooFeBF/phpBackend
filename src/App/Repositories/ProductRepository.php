@@ -64,7 +64,7 @@ class ProductRepository
       return (int)$pdo->lastInsertId();
     }
 
-      public function updateProduct(array $product): int
+      public function updateProduct(array $product): ?array
       {
       $pdo = $this->database->getConnection();
 
@@ -86,10 +86,12 @@ class ProductRepository
 
       $stmt->execute();
 
-      return $stmt->rowCount();
+      $updatedProduct = $this->getProductById((int) $product['id']);
+
+      return $updatedProduct;
     }
 
-    public function deleteProduct(int $id): int
+    public function deleteProduct(int $id)
     {
       $pdo = $this->database->getConnection();
 
@@ -100,8 +102,6 @@ class ProductRepository
       $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
       $stmt->execute();
-
-      return $stmt->rowCount();
     }
 
 }

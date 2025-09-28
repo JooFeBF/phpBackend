@@ -73,12 +73,20 @@ class Products
         $body = $request->getParsedBody();
 
         $v = new Validator($body);
+
         $v->mapFieldsRules([
             'id' => ['required', 'integer', ['min', 1]],
             'name' => ['required'],
             'size' => ['required', 'integer', ['min', 1]],
             'description' => ['optional']
         ]);
+
+        if (!$v->validate()) {
+            $errors = $v->errors();
+            $body = json_encode(['errors' => $errors]);
+            $response->getBody()->write($body);
+            return $response->withStatus(400);
+        }
 
         $updatedProduct = $this->repository->updateProduct($body);
 
@@ -96,9 +104,9 @@ class Products
     {
         $product = $request->getAttribute('product');
 
-        $rows = $this->repository->deleteProduct($product['id']);
+        $this->repository->deleteProduct($product['id']);
 
-        $body = json_encode(['message' => 'Product deleted successfully', 'rows' => $rows]);
+        $body = json_encode(['message' => "Product with {$product['id']} deleted successfully"]);
 
         $response->getBody()->write($body);
 
