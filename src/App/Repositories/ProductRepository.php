@@ -34,7 +34,7 @@ class ProductRepository
 
       $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-      $stmt->execute(['id' => $id]);
+      $stmt->execute();
 
       $data = $stmt->fetch(PDO::FETCH_ASSOC);
 

@@ -41,6 +41,10 @@ class Products
     {
         $body = $request->getParsedBody();
 
+        if ($body === null) {
+            throw new \InvalidArgumentException('Invalid JSON body');
+        }
+
         $v = new Validator($body);
 
         $v->mapFieldsRules([
@@ -72,10 +76,13 @@ class Products
     {
         $body = $request->getParsedBody();
 
+        if ($body === null) {
+            throw new \InvalidArgumentException('Invalid JSON body');
+        }
+
         $v = new Validator($body);
 
         $v->mapFieldsRules([
-            'id' => ['required', 'integer', ['min', 1]],
             'name' => ['required'],
             'size' => ['required', 'integer', ['min', 1]],
             'description' => ['optional']
